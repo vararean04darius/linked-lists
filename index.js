@@ -114,7 +114,7 @@ class LinkedList{
             myString +="( " + tmp.value + " ) -> "
             tmp = tmp.nextNode;
         }
-        myString +="( " + tmp.value + " )";
+        myString +="( " + tmp.value + " ) -> null";
         return myString;
     }
     insertAt(value, index) {
@@ -218,9 +218,9 @@ console.log(myList.find("Michael"))
 
 console.log(myList.toString())
 
-myList.insertAt("Jackie", 0)
+myList.insertAt("Jackie", 2)
 console.log(myList.toString())
-myList.removeAt(5)
+myList.removeAt(2)
 console.log(myList.toString())
 
 console.log(myList)
