@@ -3,38 +3,40 @@ class LinkedList{
     lastIndex = 0;
     firstNode = null;
     lastNode = null;
-    constructor(node) {
-        this.firstNode = node;
-        this.lastNode = node;
-        node.index = this.lastIndex++;
+    constructor() {
+        this.firstNode = null;
+        this.lastNode = null;
     }
+    // constructor(node) {
+    //     this.firstNode = node;
+    //     this.lastNode = node;
+    //     this.lastIndex++;
+    // }
     append(node) {
         if(this.firstNode == null) {
             this.firstNode = node;
-            node.index = this.lastIndex++;
+            this.lastNode = node;
+            this.lastIndex++;
         } else {
             let tmp = this.firstNode;
             while(tmp.nextNode != null) {
                 tmp = tmp.nextNode;
             }
             tmp.nextNode = node;
-            node.index = this.lastIndex++;
+            this.lastIndex++;
             this.lastNode = node;
         }
     }
     prepend(node) {
         if(this.firstNode == null) {
             this.firstNode = node;
-            firstNode.index = this.lastIndex++;
+            this.lastNode = node;
+            this.lastIndex++;
         } else {
-            console.log("we're prepending " + node.value)
-            console.log("current head is: " + this.firstNode.value)
             node.nextNode = this.firstNode;
-            node.index = this.firstNode.index;
             this.firstNode = node;
             let tmp = node.nextNode;
             while(tmp != null) {
-                tmp.index++;
                 tmp = tmp.nextNode;
             }
             this.lastIndex++;
@@ -54,12 +56,11 @@ class LinkedList{
             return alert("you're searching for an element that is outside of the list")
         }
         let tmp = this.firstNode;
-        while(tmp != null) {
-            if(tmp.index == index) {
-                return tmp;
-            } 
+        while(index) {
             tmp = tmp.nextNode;
+            index--;
         }
+        return tmp;
     }
     pop() {
         if(this.lastNode == null) {
@@ -93,15 +94,20 @@ class LinkedList{
             return;
         }
         let tmp = this.firstNode;
+        let index = 0;
         while(tmp != null) {
             if(tmp.value === val) {
-                return tmp.index;
-            } 
+                return index;
+            }
+            index++;
             tmp = tmp.nextNode;
         }
         return;
     }
     toString() {
+        if(this.lastIndex == 0 ) {
+            return alert("empty list")
+        }
         let myString = "";
         let tmp = this.firstNode;
         while(tmp.nextNode != null) {
@@ -119,30 +125,24 @@ class LinkedList{
             return alert("can't insert to this value because list is not that long")
         }
         if(index == 0) {
-            //daca suntem la 0, nu avem element la index-1
             let tempNode = new Node(value)
             tempNode.nextNode = this.firstNode;
-            tempNode.index = this.firstNode.index;
             let tmp = this.firstNode
             this.firstNode = tempNode;
             while(tmp!=null) {
-                tmp.index++;
                 tmp = tmp.nextNode;
             }
         } else {
             let tmp = myList.at(index-1);
             let oldNext = tmp.nextNode;
-            let oldIndex = tmp.index;
             let tempNode = new Node(value);
             tmp.nextNode = tempNode;
             if(oldNext == null) {
                 this.lastNode = tempNode;
             }
             tempNode.nextNode = oldNext;
-            tempNode.index = oldIndex;
             tmp = tmp.nextNode
             while(tmp != null) {
-                tmp.index++;
                 tmp = tmp.nextNode;
             }
         }
@@ -152,35 +152,26 @@ class LinkedList{
         if(this.lastNode == null) {
             return alert("can't remove at this value because list is empty")
         }
-        if(this.lastIndex < ind) {
+        if(this.lastIndex <= ind) {
             return alert("can't remove at this value because list is not that long")
         }
         if(ind == 0) {
             this.firstNode = this.firstNode.nextNode;
             let tmp = this.firstNode;
             while(tmp != null) {
-                tmp.index--;
                 tmp = tmp.nextNode;
             }
         } else {
             let curr = myList.at(ind-1);
-            console.log("current");
-            
-            console.log(curr)
-
             curr.nextNode = curr.nextNode.nextNode;
             if(curr.nextNode == null) {
-                console.log("suntem in if")
-                console.log(curr)
                 this.lastNode = curr;
             }
             let tmp = curr.nextNode;
-            console.log(tmp)
             while(tmp != null) {
                 if(this.lastNode == null) {
                     this.lastNode = tmp.nextNode;
                 }
-                tmp.index--;
                 tmp = tmp.nextNode;
             }
         }
@@ -197,35 +188,45 @@ class Node{
 }
 
 let firstElement = new Node("John");
-let myList = new LinkedList(firstElement)
+let myList = new LinkedList()
+myList.prepend(firstElement)
 console.log(myList.toString())
 
 let another = new Node("Michael")
 let prepended = new Node("John Cena")
-console.log(myList.toString())
+// console.log(myList.toString())
+console.log("appending Michael");
 
 myList.append(another)
 console.log(myList.toString())
+console.log("prepending John Cena");
 
 myList.prepend(prepended)
 console.log(myList.toString())
 let ciucas = new Node("ChewCash");
+console.log("prepending ciucas");
+
 myList.prepend(ciucas)
 console.log(myList.toString())
-console.log(myList)
 console.log(myList.size())
 myList.append(new Node("North"))
 console.log(myList.toString())
 console.log(myList.at(0));
 console.log(myList.pop()) 
 console.log(myList.toString())
-console.log(myList.find("John Cena"))
+console.log(myList.find("Michael"))
 
 console.log(myList.toString())
 
 myList.insertAt("Jackie", 0)
 console.log(myList.toString())
-myList.removeAt(3)
+myList.removeAt(5)
 console.log(myList.toString())
 
 console.log(myList)
+console.log(myList.toString())
+
+console.log(myList.at(0));
+console.log(myList.at(1));
+console.log(myList.at(2));
+console.log(myList.at(3));
